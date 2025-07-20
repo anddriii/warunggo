@@ -1,0 +1,428 @@
+{
+    "openapi": "3.1.0",
+    "info" : {
+        "title": "user-service",
+        "description": "User Service API",
+        "version": "0.0.1"
+    },
+    "servers": [{
+        "url": "http://localhost:8001/api/v1/auth"
+    }],
+    "paths":{
+        "/register":{
+            "post": {
+                "summary": "Register User",
+                "operationId": "registerUser",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                           "schema":{
+                            "type": "object",
+                            "properties": {
+                                "email":{
+                                    "type":"string",
+                                    "format": "email"
+                                },
+                                "phoneNumber":{
+                                    "type":"string"
+                                },
+                                "name":{
+                                    "type":"string"
+                                },
+                                "username":{
+                                    "type":"string"
+                                },
+                                "password":{
+                                    "type":"string",
+                                    "format": "password"
+                                },
+                                "confirmPassword":{
+                                    "type":"string",
+                                    "format": "password"
+                                }
+                            }
+                           }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "Response Register",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "message":{
+                                            "type":"string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/registerResponse"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login":{
+            "post":{
+                "summary": "Login user",
+                "operationId": "loginUser",
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "required": ["identifier", "password"],
+                                "properties": {
+                                    "identifier":{
+                                        "type":"string",
+                                        "description": "Email, Username or Phone Number"
+                                    },
+                                    "password":{
+                                        "type":"string",
+                                        "format": "password"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Login Succesfully",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "message":{
+                                            "type":"string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/loginResponse"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user":{
+            "get": {
+                "summary": "Get all users for admin",
+                "operationId": "getAllUsers",
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Succes get all users",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "message":{
+                                            "type":"string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/getAllUsersResponse"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{uuid}":{
+            "get":{
+                "description": "Get user by UUID",
+                "operationId": "getUserByUUID",
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "message":{
+                                            "type":"string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/getUserDetail"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "summary": "Update User",
+                "operationId": "updateUser",
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "required": true,
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/updateRequestAndResponse"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204":{
+                        "description": "Update Succesfully",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "message":{
+                                            "type":"string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/updateRequestAndResponse"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete User",
+                "operationId": "deleteUser",
+                "security": [
+                    {
+                        "bearerAuth":[]
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Succes delele user",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties": {
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "message":{
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "registerResponse":{
+                "type":"object",
+                "properties": {
+                    "uuid":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "username":{
+                        "type":"string"
+                    },
+                    "phoneNumber/Email":{
+                        "type":"string"
+                    }
+                }
+            },
+            "loginResponse":{
+                "type":"object",
+                "properties": {
+                    "uuid":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "username":{
+                        "type":"string"
+                    },
+                    "phoneNumber":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "profilePicture":{
+                        "type":"string"
+                    }
+                }
+            },
+            "getAllUsersResponse":{
+                "type":"array",
+                "items":{
+                    "type":"object",
+                    "properties": {
+                        "uuid":{
+                            "type":"string"
+                        },
+                        "name":{
+                            "type":"string"
+                        },
+                        "username":{
+                            "type":"string"
+                        },
+                        "phoneNumber":{
+                            "type":"string"
+                        },
+                        "email":{
+                            "type":"string"
+                        },
+                        "profilePicture":{
+                            "type":"string"
+                        },
+                        "gender":{
+                            "type":"string"
+                        }
+                    }
+                }
+                
+            },
+            "getUserDetail":{
+                "type":"object",
+                "properties": {
+                    "uuid":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "username":{
+                        "type":"string"
+                    },
+                    "phoneNumber":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "profilePicture":{
+                        "type":"string"
+                    },
+                    "gender":{
+                        "type":"string"
+                    },
+                    "bio":{
+                        "type":"string"
+                    },
+                    "dateOfBirth":{
+                        "type":"string",
+                        "format": "date"
+                    }
+                }
+            },
+            "updateRequestAndResponse":{
+                "type":"object",
+                "properties": {
+                    "uuid":{
+                        "type":"string"
+                    },
+                    "name":{
+                        "type":"string"
+                    },
+                    "username":{
+                        "type":"string"
+                    },
+                    "phoneNumber":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "profilePicture":{
+                        "type":"string"
+                    },
+                    "gender":{
+                        "type":"string"
+                    },
+                    "bio":{
+                        "type":"string"
+                    },
+                    "dateOfBirth":{
+                        "type":"string",
+                        "format": "date"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
