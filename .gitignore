@@ -1,0 +1,11 @@
+.env
+
+config.json
+makefile
+.vscode
+
+.idea
+bin
+tmp
+
+images
