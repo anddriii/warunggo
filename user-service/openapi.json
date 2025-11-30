@@ -380,6 +380,23 @@
                     "dateOfBirth":{
                         "type":"string",
                         "format": "date"
+                    },
+                    "address":{
+                        "type": "object",
+                        "properties": {
+                            "street":{
+                                "type":"string"
+                            },
+                            "city":{
+                                "type":"string"
+                            },
+                            "state":{
+                                "type":"string"
+                            },
+                            "postalCode":{
+                                "type":"string"
+                            }
+                        }
                     }
                 }
             },
@@ -413,6 +430,22 @@
                     "dateOfBirth":{
                         "type":"string",
                         "format": "date"
+                    },
+                    "address":{
+                        "properties": {
+                                "street":{
+                                    "type":"string"
+                                },
+                                "city":{
+                                    "type":"string"
+                                },
+                                "state":{
+                                    "type":"string"
+                                },
+                                "postalCode":{
+                                    "type":"string"
+                                }
+                            }
                     }
                 }
             }
