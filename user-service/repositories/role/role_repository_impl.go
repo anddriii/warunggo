@@ -99,6 +99,13 @@ func (r *RoleRepoImpl) Update(ctx context.Context, req *models.Role, id int64) e
 	role := models.Role{
 		Name: req.Name,
 	}
+
+	err := r.db.WithContext(ctx).Model(&models.Role{}).Where("id = ?", id).Updates(&role).Error
+	if err != nil {
+		log.Errorf("[RoleRepository -1] Update: %v", err)
+		return nil
+	}
+	return nil
 }
 
 func NewROleRepo(db *gorm.DB) IRoleRepo {
